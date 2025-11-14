@@ -34,7 +34,19 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-        working-directory: environments/dev        
+        working-directory: environments/dev   
+        
+      # Install and configure TFLint
+      - name: Setup TFLint
+        uses: terraform-linters/setup-tflint@v6.2.1
+        with:
+          tflint_config_path: ""  # optional; leave empty if no config file
+
+      # Run TFLint scan
+      - name: Run TFLint
+        run: |
+          tflint --init          # downloads plugins (optional but recommended)
+          tflint -f compact      # runs the lint check and outputs results
       
       - name: Terraform Plan
         id: plan

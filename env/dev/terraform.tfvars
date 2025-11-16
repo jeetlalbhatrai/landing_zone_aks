@@ -23,13 +23,6 @@ vnet_map = {
         address_prefixes = ["10.0.3.0/24"]
     }
   }
-
-  # spoke-vnet = {
-  #   location            = "West Europe"
-  #   resource_group_name = "rg-spoke"
-  #   address_space       = ["10.1.0.0/16"]
-  #   # Optional fields not passed
-  # }
 }
 }
 
@@ -225,4 +218,57 @@ bastions = {
       pip_name            = "bastion-pip"
     }
   }
+
+#application gw for dev environment
+appgw_map = {
+  agw1 = {
+    name                = "appgw-prod"
+    location            = "eastus"
+    resource_group_name = "rg-prod"
+
+    sku = {
+      name     = "WAF_v2"
+      tier     = "WAF_v2"
+      capacity = 2
+    }
+
+    frontend_ip_config = {
+      public_ip_id = "/subscriptions/xxx/resourceGroups/rg-prod/providers/Microsoft.Network/publicIPAddresses/pip-appgw"
+      subnet_id    = null
+    }
+
+    backend_pools = {
+      api = {
+        name = "api-pool"
+        ips  = ["10.0.2.4", "10.0.2.5"]
+      }
+    }
+
+    http_settings = {
+      default = {
+        name  = "default-settings"
+        port  = 80
+        protocol = "Http"
+      }
+    }
+
+    listeners = {
+      http = {
+        name          = "http-listener"
+        frontend_port = 80
+        protocol      = "Http"
+      }
+    }
+
+    routing_rules = {
+      rule1 = {
+        name                = "rule1"
+        listener_key        = "http"
+        backend_pool_key    = "api"
+        backend_setting_key = "default"
+      }
+    }
+  }
+}
+
 

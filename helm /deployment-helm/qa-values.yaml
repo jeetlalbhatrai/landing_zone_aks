@@ -1,0 +1,6 @@
+replicaCount: 2
+imageName: nginx:latest
+containerPort: 80
+servicePort: 80
+targetPort: 80
+hostName: nginx.jhandu.shop

@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: {{.Release.Name}}-deployment
 spec:
-  replicas: 1
+  replicas: {{.Values.replicaCount}}
   selector:
     matchLabels:
       app: {{.Release.Name}}-deployment
@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: {{.Release.Name}}-deployment
-        image: nginx:latest
+        image: {{.Values.imageName}}
         ports:
-        - containerPort: 80
+        - containerPort: {{.Values.containerPort}}

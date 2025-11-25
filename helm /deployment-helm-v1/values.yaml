@@ -1,6 +1,6 @@
 common:
   containerRegistryURL: tododevacr1.azurecr.io
-  # ingressClass: azure-application-gateway
+  ingressClass: azure-application-gateway
 ui:
   Name: todo-ui
   replicas: 1
@@ -11,7 +11,7 @@ ui:
   ServicePort: 80
   ingress:
     host: ui.jhandu.shop
-    ingressClass: azure-application-gateway
+    # ingressClass: azure-application-gateway
 
 getTask:
   Name: gettask

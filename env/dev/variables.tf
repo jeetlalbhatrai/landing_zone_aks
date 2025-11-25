@@ -186,7 +186,3 @@ variable "bastions" {
 }
 
 
-# variable "appgw_map" {
-#   type = any
-# }
-

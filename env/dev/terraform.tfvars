@@ -53,22 +53,22 @@ key_vaults = {
     name                = "aks-keyvault"
     location            = "Canada East"
     resource_group_name = "rg-aks"
-    sku_name            = "premium"
+    sku_name            = "standard"
     enable_rbac_authorization = true
 
     network_acls = {
       bypass        = "AzureServices"
       default_action = "Deny"
-      ip_rules       = ["10.0.0.0/24"]
+      # ip_rules       = ["10.0.0.0/24"]
     }
   }
 
-  kv-dev = {
-    name                = "dev-keyvault"
-    location            = "West Europe"
-    resource_group_name = "rg-dev"
-    purge_protection_enabled = false
-  }
+  # kv-dev = {
+  #   name                = "rg-keyvault"
+  #   location            = "Canada East"
+  #   resource_group_name = "rg-aks"
+  #   purge_protection_enabled = false
+  # }
 }
 
 default_tags = {
@@ -79,10 +79,10 @@ default_tags = {
 mssql_config = {
   sql1 = {
     name                = "mssql-prod"
-    location            = "eastus"
+    location            = "Canada East"
     resource_group_name = "rg-prod"
     admin_login         = "sqladmin"
-    admin_password      = "ChangeMe123!"
+    admin_password      = "admin@123"
     version             = "12.0"
 
     public_network_access_enabled = true
@@ -123,86 +123,95 @@ common_tags = {
 }
 
 vms = {
-  "frontend-vm" = {
-    location                  = "Canada East"
-    resource_group_name       = "rg-aks"
-    vnet_resource_group_name  = "rg-aks"
-    vnet_name                 = "vnet-aks"
-    subnet_name               = "subnet-frontend"
-    vm_size                   = "Standard_B2s"
-    admin_username            = "azureuser"
-    admin_password            = "MyP@ssword123!"
-    pip_name                  = "frontend-pip"
+  # "frontend-vm" = {
+  #   location                  = "Canada East"
+  #   resource_group_name       = "rg-aks"
+  #   vnet_resource_group_name  = "rg-aks"
+  #   vnet_name                 = "vnet-aks"
+  #   subnet_name               = "subnet-frontend"
+  #   vm_size                   = "Standard_B2s"
+  #   admin_username            = "azureuser"
+  #   admin_password            = "Admin@123"
+  #   pip_name                  = "frontend-pip"
 
-    os_disk = {
-      storage_account_type = "Standard_LRS"
-    }
+  #   os_disk = {
+  #     storage_account_type = "Standard_LRS"
+  #   }
 
-    source_image_reference = {
-      publisher = "Canonical"
-      offer     = "0001-com-ubuntu-server-jammy"
-      sku       = "22_04-lts"
-      version   = "latest"
-    }
+  #   source_image_reference = {
+  #     publisher = "Canonical"
+  #     offer     = "0001-com-ubuntu-server-jammy"
+  #     sku       = "22_04-lts"
+  #     version   = "latest"
+  #   }
 
-    identity = {
-      type = "SystemAssigned"
-    }
+  #   identity = {
+  #     type = "SystemAssigned"
+  #   }
 
-    tags = {
-      role = "app"
-    }
-  }
-  "backend-vm" = {
-    location                  = "Canada East"
-    resource_group_name       = "rg-aks"
-    vnet_resource_group_name  = "rg-aks"
-    vnet_name                 = "vnet-aks"
-    subnet_name               = "subnet-backend"
-    vm_size                   = "Standard_B2s"
-    admin_username            = "azureuser"
-    admin_password            = "MyP@ssword123!"
-    pip_name                  = "backend-pip"
+  #   tags = {
+  #     role = "app"
+  #   }
+  # }
+  # "backend-vm" = {
+  #   location                  = "Canada East"
+  #   resource_group_name       = "rg-aks"
+  #   vnet_resource_group_name  = "rg-aks"
+  #   vnet_name                 = "vnet-aks"
+  #   subnet_name               = "subnet-backend"
+  #   vm_size                   = "Standard_B2s"
+  #   admin_username            = "azureuser"
+  #   admin_password            = "MyP@ssword123!"
+  #   pip_name                  = "backend-pip"
 
-    os_disk = {
-      storage_account_type = "Standard_LRS"
-    }
+  #   os_disk = {
+  #     storage_account_type = "Standard_LRS"
+  #   }
 
-    source_image_reference = {
-      publisher = "Canonical"
-      offer     = "0001-com-ubuntu-server-jammy"
-      sku       = "22_04-lts"
-      version   = "latest"
-    }
+  #   source_image_reference = {
+  #     publisher = "Canonical"
+  #     offer     = "0001-com-ubuntu-server-jammy"
+  #     sku       = "22_04-lts"
+  #     version   = "latest"
+  #   }
 
-    identity = {
-      type = "SystemAssigned"
-    }
+  #   identity = {
+  #     type = "SystemAssigned"
+  #   }
 
-    tags = {
-      role = "app"
-    }
-  }
+  #   tags = {
+  #     role = "app"
+  #   }
+  # }
 }
 
 public_ips = {
-  "frontend-pip" = {
+  # "frontend-pip" = {
+  #   location            = "Canada East"
+  #   resource_group_name = "rg-aks"
+  #   allocation_method   = "Static"
+  #   sku                 = "Standard"
+  #   tags = {
+  #     role = "frontend-app"
+  #   }
+  # }
+
+  # "backend-pip" = {
+  #   location            = "Canada East"
+  #   resource_group_name = "rg-aks"
+  #   allocation_method   = "Dynamic"
+  #   sku                 = "Standard"
+  #   tags = {
+  #     role = "backend-app"
+  #   }
+  # }
+  "bastion-pip" = {
     location            = "Canada East"
     resource_group_name = "rg-aks"
     allocation_method   = "Static"
     sku                 = "Standard"
     tags = {
-      role = "frontend-app"
-    }
-  }
-
-  "backend-pip" = {
-    location            = "Canada East"
-    resource_group_name = "rg-aks"
-    allocation_method   = "Dynamic"
-    sku                 = "Standard"
-    tags = {
-      role = "backend-app"
+      role = "bastion-app"
     }
   }
 }
@@ -219,56 +228,6 @@ bastions = {
     }
   }
 
-#application gw for dev environment
-appgw_map = {
-  agw1 = {
-    name                = "appgw-prod"
-    location            = "eastus"
-    resource_group_name = "rg-prod"
 
-    sku = {
-      name     = "WAF_v2"
-      tier     = "WAF_v2"
-      capacity = 2
-    }
-
-    frontend_ip_config = {
-      public_ip_id = "/subscriptions/xxx/resourceGroups/rg-prod/providers/Microsoft.Network/publicIPAddresses/pip-appgw"
-      subnet_id    = null
-    }
-
-    backend_pools = {
-      api = {
-        name = "api-pool"
-        ips  = ["10.0.2.4", "10.0.2.5"]
-      }
-    }
-
-    http_settings = {
-      default = {
-        name  = "default-settings"
-        port  = 80
-        protocol = "Http"
-      }
-    }
-
-    listeners = {
-      http = {
-        name          = "http-listener"
-        frontend_port = 80
-        protocol      = "Http"
-      }
-    }
-
-    routing_rules = {
-      rule1 = {
-        name                = "rule1"
-        listener_key        = "http"
-        backend_pool_key    = "api"
-        backend_setting_key = "default"
-      }
-    }
-  }
-}
 
 
